@@ -5,13 +5,13 @@
 
 struct Object 
 {
-	char name[10];//ne pas ecrire plus de 9 char
+	char name[11];//ne pas ecrire plus de 10 char
 	int price;
 	
 };
 typedef struct Object object;
 
-void sort(object tInventaire[])
+void sortInv(object tInventaire[])
 {
 	for (int i = 2; i > 0; i--)
 	{
@@ -32,12 +32,34 @@ void sort(object tInventaire[])
 	}
 }
 
-void viewInventaire(object tInventaire[])
+void sortSeller (object tSeller[])
 {
-	for (int i = 0; i<3; i++)
+	for (int i = 3; i > 0; i--)
 	{
-		printf("%s : %d\n",tInventaire[i].name, tInventaire[i].price);
+		
+		for (int j = 0; j < i; j++)
+		{
+			
+			if (tSeller[j].price > tSeller[j+1].price)
+			{
+				
+				object copie;
+				copie = tSeller[j+1];
+				tSeller[j+1] = tSeller[j];
+				tSeller[j] = copie;
+
+			}
+		}
 	}
+}
+
+void view(object tableau[], int size)
+{
+	for (int i = 0; i<size; i++)
+	{
+		printf("%s : %d\n",tableau[i].name, tableau[i].price);
+	}
+	printf("\n");
 }
 
 int main ()
@@ -45,12 +67,22 @@ int main ()
 	object poire = {"poire", 50};
 	object pomme = {"pomme", 2};
 	object banane = {"banane", 100};
-	
 
 	object tInventaire[3] = {poire, pomme, banane};
 	
-	sort(tInventaire);
-	viewInventaire(tInventaire);
+
+	object kiwi = {"kiwi", 80};
+	object clementine = {"clementine", 25};
+	object orange = {"orange", 75};
+	object tomate = {"tomate", 150};
+
+	object tSeller[4] = {kiwi, clementine, orange, tomate};
+
+	sortInv(tInventaire);
+	view(tInventaire, 3);
+
+	sortSeller(tSeller);
+	view(tSeller, 4);
 	
 	return 0;
 }
