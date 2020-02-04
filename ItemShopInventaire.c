@@ -53,22 +53,77 @@ void sortSeller (object tSeller[])
 	}
 }
 
-void view(object tableau[], int size)
+void view(object tableau[], int size, int money)
 {
+	printf("Vous avez : %dAg\n",money);
 	for (int i = 0; i<size; i++)
 	{
-		printf("%s : %d\n",tableau[i].name, tableau[i].price);
+		if (tableau[i].price == 0)
+		{
+			printf("%d _ Vide\n", i);
+		}
+		else
+		{
+			printf("%d _ %s : %d\n",i ,tableau[i].name, tableau[i].price);
+		}
+		
+		
 	}
 	printf("\n");
 }
 
+void buy (object tInventaire[], object tSeller[], int *money)
+{
+	printf("%dAg\n", *money);
+
+	int number;
+	int ok = 0;
+	while ( ok != 1)
+	{
+		printf("Quel objet voulez vous acheter ?\n");
+		scanf("%d", &number);
+		if (number >= 0 && number <= 7)
+		{
+			ok = 1;
+		}
+	}
+
+	//trouve un emplacement vide dans l'inventaire
+	int i = 0;
+	while (tInventaire[i].price != 0 && i <= 7)
+	{
+		i++;
+	}
+
+	if (i > 7)
+	{
+		printf("Votre inventaire est plein. Vous ne pouvez rien acheter.\n");
+	}
+
+	if (i <= 7)
+	{
+		tInventaire[i] = tSeller[number];
+		*money -= tSeller[number].price;
+		strcpy(tSeller[number].name, "\0");
+		tSeller[number].price = 0;
+
+		printf("Vous avez achetez %s.\n", tInventaire[i].name);
+		printf("%dAg\n", *money);
+		printf("%s\n", tSeller[number].name);
+
+	}
+
+}
+
 int main ()
 {
+	int money = 1000;
+
 	object poire = {"poire", 50};
 	object pomme = {"pomme", 2};
 	object banane = {"banane", 100};
 
-	object tInventaire[3] = {poire, pomme, banane};
+	object tInventaire[8] = {poire, pomme, banane};
 	
 
 	object kiwi = {"kiwi", 80};
@@ -76,13 +131,15 @@ int main ()
 	object orange = {"orange", 75};
 	object tomate = {"tomate", 150};
 
-	object tSeller[4] = {kiwi, clementine, orange, tomate};
+	object tSeller[8] = {kiwi, clementine, orange, tomate};
 
 	sortInv(tInventaire);
-	view(tInventaire, 3);
+	view(tInventaire, 8, money);
 
 	sortSeller(tSeller);
-	view(tSeller, 4);
+	view(tSeller, 8, money);
 	
+	buy(tInventaire, tSeller, &money);
+
 	return 0;
 }
