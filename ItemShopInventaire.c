@@ -30,12 +30,14 @@ void sort(object tInventaire[])
 			}
 		}
 	}
+}
 
+void viewInventaire(object tInventaire[])
+{
 	for (int i = 0; i<3; i++)
 	{
 		printf("%s : %d\n",tInventaire[i].name, tInventaire[i].price);
 	}
-
 }
 
 int main ()
@@ -48,6 +50,7 @@ int main ()
 	object tInventaire[3] = {poire, pomme, banane};
 	
 	sort(tInventaire);
+	viewInventaire(tInventaire);
 	
 	return 0;
 }
